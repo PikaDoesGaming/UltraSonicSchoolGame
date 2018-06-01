@@ -1,5 +1,6 @@
 import pickle
 import time
+from tkinter import Tk
 
 
 def date():
@@ -58,3 +59,6 @@ def load_highscores():
 def write_highscores(Top_10):
     with open("highscore.txt", "wb") as highscorefile:
         Top_10 = pickle.dump(Top_10, highscorefile)
+
+
+write_highscores(Top_10)
