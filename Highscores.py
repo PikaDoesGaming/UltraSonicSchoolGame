@@ -1,8 +1,11 @@
 import pickle
 import time
-from tkinter import Tk
 
 
+Highscores = []
+Top_10 = []
+
+# Get today in DD/MM/YYYY
 def date():
     current_year = time.localtime().tm_year
     current_month = time.localtime().tm_mon
@@ -10,12 +13,7 @@ def date():
     return_string = str(current_day) + " / " + str(current_month) + " / " + str(current_year)
     return return_string
 
-
-Highscores = []
-
-Top_10 = []
-
-
+# When a 11th score is added  -> delete the lowest one
 def remove_lowest_score():
     if len(Highscores) > 10:
         scores = []
@@ -27,7 +25,7 @@ def remove_lowest_score():
     else:
         return Highscores
 
-
+# Add new highscore
 def new_highscore(name, highscore, date):
     locallist = []
     locallist.append(name)
@@ -37,7 +35,18 @@ def new_highscore(name, highscore, date):
     Top_10.append(locallist)
     return remove_lowest_score()
 
+# load top 10 highscores from file
+def load_highscores():
+    with open("highscore.txt", "rb") as highscorefile:
+        Top_10 = pickle.load(highscorefile)
+    return Top_10
 
+# write top 10 highscores to file
+def write_highscores(Top_10):
+    with open("highscore.txt", "wb") as highscorefile:
+        Top_10 = pickle.dump(Top_10, highscorefile)
+
+# Test data
 user_name = "Pika"
 user_score = 8700
 user_date = date()
@@ -49,16 +58,10 @@ print(Top_10)
 new_highscore("Example Person 2", 8500, date())
 print(Top_10)
 
-
-def load_highscores():
-    with open("highscore.txt", "rb") as highscorefile:
-        Top_10 = pickle.load(highscorefile)
-    return Top_10
-
-
-def write_highscores(Top_10):
-    with open("highscore.txt", "wb") as highscorefile:
-        Top_10 = pickle.dump(Top_10, highscorefile)
-
-
 write_highscores(Top_10)
+
+
+
+
+
+
